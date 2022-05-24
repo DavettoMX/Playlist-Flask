@@ -4,7 +4,7 @@ from forms import SignUpForm, LoginForm, AddSong
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dfewfew123213rwdsgert34tgfd1234trgf'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ejotoybhwpdtwt:b18d9b82561de6c6dd1ca66b0caa26b9c015ec6458cbcb9e735879313f7f40fc@ec2-54-165-90-230.compute-1.amazonaws.com:5432/d1c7mcig8u9557'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///songs.db'
 db = SQLAlchemy(app)
 
 
