@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sign-Up
+{% endblock %}
+
+{% block heading %}
+<h3 class="text-center display-3">Sign Up</h3>
+{% endblock %}
+
+{% block content %}
+
+{% if message %}
+<div class="alert alert-success">
+    {{ message }}
+</div>
+{% endif %}
+
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
+
+
+{% if form %}
+
+<div class="container">
+    <div class="row">
+        <form action="{{url_for('signup')}}" method="POST" style="padding:5px;">
+            <div class="form-group m-auto p-2" id="username">
+                {{ form.username.label }}
+                {{ form.username(class_="form-control", placeholder="Username")}}
+
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group m-auto p-2" id="password">
+                {{ form.password.label }}
+                {{ form.password(class_="form-control", placeholder="Password")}}
+
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group m-auto p-2" id="confirm_password">
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password(class_="form-control", placeholder="Confirm Password")}}
+
+                {% if form.confirm_password.errors %}
+                    {% for error in form.confirm_password.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        
+            {{ form.csrf_token }}
+            
+            <div class="form-group m-auto p-2" id="submit_btn">
+                {{ form.submit(class_="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

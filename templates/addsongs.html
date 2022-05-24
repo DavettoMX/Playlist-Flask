@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+
+{% block title %} MyPlaylist {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center h1 display-2">{{ session['username'] }} NEW SONG!</h1>
+            <br>
+            <form method="POST" action="{{ url_for('addSongs', username = session['username']) }}">
+                <div class="mb-3">
+                    {{ form.title.label }}
+                    {{ form.title(class_="form-control", placeholder="Title")}}
+
+                    {% if form.title.errors %}
+                        {% for error in form.title.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.artist.label }}
+                    {{ form.artist(class_="form-control", placeholder="Artist / Group") }}
+
+                    {% if form.artist.errors %}
+                        {% for error in form.artist.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.year.label }}
+                    {{ form.year(class_="form-control", placeholder="Year") }}
+
+                    {% if form.year.errors %}
+                        {% for error in form.year.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.genre.label }}
+                    {{ form.genre(class_="form-control", placeholder="Genre") }}
+
+                    {% if form.genre.errors %}
+                        {% for error in form.genre.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+
+                {{ form.csrf_token }}
+
+
+                <div class="form-group mb-3" id="submit_btn">
+                    {{ form.submit(class_="btn btn-primary") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

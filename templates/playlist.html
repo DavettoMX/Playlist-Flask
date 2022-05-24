@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+    
+    {% block title %} MyPlaylist {% endblock %}
+
+    {% block content %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center h1 display-2">Welcome {{ session['username'] }}!</h1>
+                    <br>
+                    <!-- table for songs -->
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Title</th>
+                                <th scope="col">Artist / Group</th>
+                                <th scope="col">Year</th>
+                                <th scope="col">Genre</th>
+                                <th scope="col">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for song in songs %}
+                            <tr>
+                                <td>{{ song.title }}</td>
+                                <td>{{ song.artist }}</td>
+                                <td>{{ song.year }}</td>
+                                <td>{{ song.genre }}</td>
+                                <td>
+                                    <a href="{{ url_for('edit', song_id = song.id) }}" class="btn btn-primary">Edit</a>
+                                    <a href="{{ url_for('delete', song_id = song.id) }}" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+

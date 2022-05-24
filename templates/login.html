@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block heading %}
+<h3 class="text-center display-3">Login</h3>
+{% endblock %}
+
+{% block content %}
+
+{% if message %}
+<div class="alert alert-danger">
+    {{ message }}
+</div>
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        {% if form %}
+        <form action="{{url_for('login')}}" method="POST" style="padding:5px;">
+
+            <div class="form-group m-auto p-2" id="username">
+                {{ form.username.label }}
+                {{ form.username(class_="form-control", placeholder="username")}}
+
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-group m-auto p-2" id="password">
+                {{ form.password.label }}
+                {{ form.password(class_="form-control", placeholder="password")}}
+
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            {{ form.csrf_token }}
+
+            <div class="form-group m-auto p-2" id="submit_btn">
+                {{ form.submit(class_="btn btn-primary") }}
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

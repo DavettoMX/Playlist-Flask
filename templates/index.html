@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %} Welcome {% endblock %}
+
+{% block content %}
+
+<!-- Welcome page & Signup or Login options -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% if 'user' in session %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="text-center h1 display-2">Welcome Back {{ session['username']  }}!</h1>
+                            <p class="text-center h4 lead">
+                                You can create your own playlist and share it with others.
+                                You can also search for music and add it to your playlist.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="text-center h1 display-3 lead">Welcome to Amafy</h2>
+                            <p class="text-center h4 lead">Your personal playlist. Take your music anywhere you go!</p>
+
+                            <p class="text-center">
+                                For an interactive experience please:
+                                <a href="{{ url_for('login') }}">Login</a>
+                                or
+                                <a href="{{ url_for('signup') }}">Signup</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
