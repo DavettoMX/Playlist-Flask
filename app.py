@@ -5,6 +5,7 @@ from forms import SignUpForm, LoginForm, AddSong
 from decouple import config as config_decouple
 
 db = SQLAlchemy()
+config = config_decouple.get('ENVIRONMENT')
 
 def create_app(environment):
     app = Flask(__name__)
