@@ -1,28 +1,11 @@
-import re
 from flask import Flask, render_template, abort, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from forms import SignUpForm, LoginForm, AddSong
-from decouple import config as config_decouple
 
-db = SQLAlchemy()
-config = config_decouple.get('ENVIRONMENT')
-
-def create_app(environment):
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'dfewfew123213rwdsgert34tgfd1234trgf'
-    app.config.from_object(environment)
-
-    with app.app_context():
-        db.init_app(app)
-        db.create_all()
-
-    return app
-
-enviroment = config['development']
-if config_decouple('PRODUCTION', default=False):
-    enviroment = config['production']
-
-app = create_app(enviroment)
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'dfewfew123213rwdsgert34tgfd1234trgf'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ejotoybhwpdtwt:b18d9b82561de6c6dd1ca66b0caa26b9c015ec6458cbcb9e735879313f7f40fc@ec2-54-165-90-230.compute-1.amazonaws.com:5432/d1c7mcig8u9557'
+db = SQLAlchemy(app)
 
 
 # Users Model
