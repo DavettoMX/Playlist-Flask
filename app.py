@@ -8,14 +8,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///songs.db'
 db = SQLAlchemy(app)
 
 
-# Users Model
+# It creates a table called users with the columns id, username, and password.
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
 
 
-# Songs Model
+# It creates a table called songs with the columns id, title, artist, year, genre, and user_id.
 class Songs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), unique=False, nullable=False)
@@ -28,6 +28,11 @@ class Songs(db.Model):
 db.create_all()
 
 
+"""
+    If the user is logged in, render the index.html template with the username and a message. If the
+    user is not logged in, render the index.html template without the username and message.
+    :return: the rendered template.
+"""
 @app.route('/', methods=['POST', 'GET'])
 def index():
     # verify if user is logged in
@@ -36,6 +41,11 @@ def index():
     return render_template('index.html')
 
 
+"""
+    If the form is submitted and the username and password are valid, then the user is logged in and
+    redirected to the index page
+    :return: The login page is being returned.
+"""
 @app.route("/login", methods=["POST", "GET"])
 def login():
     form = LoginForm()
@@ -57,7 +67,12 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/signup', methods=['POST', 'GET'])
+"""
+    If the form is valid, add the user to the database, and if the username already exists, return an
+    error message.
+    :return: a render_template object.
+"""
+@app.route('/signup', methods=['POST', 'GET'])    
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():
@@ -74,6 +89,12 @@ def signup():
     return render_template('signup.html', form=form)
 
 
+"""
+    It takes the username of the user who is logged in, and adds a song to the database.
+    
+    :param username: the username of the user who is logged in
+    :return: the rendered template of the addsongs.html file.
+"""
 @app.route('/addsongs/<username>', methods=['POST', 'GET'])
 def addSongs(username):
     form = AddSong()
@@ -90,6 +111,14 @@ def addSongs(username):
         return redirect(url_for('playlist', username=username))
     return render_template('addsongs.html', form=form)
 
+
+"""
+    If the user is logged in, then render the playlist.html template with the songs that belong to the
+    user
+    
+    :param username: The username of the user whose playlist you want to view
+    :return: The user_id is being returned.
+"""
 @app.route('/playlist/<username>', methods=['POST', 'GET'])
 def playlist(username):
     if 'user' in session:
@@ -99,6 +128,12 @@ def playlist(username):
     return redirect(url_for('index'))
 
 
+"""
+    If the user is logged in, delete the song from the database and redirect to the playlist page.
+    
+    :param song_id: The id of the song to be deleted
+    :return: the redirect function.
+"""
 @app.route('/delete/<song_id>', methods=['POST', 'GET'])
 def delete(song_id):
     if 'user' in session:
@@ -115,6 +150,14 @@ def delete(song_id):
     return redirect(url_for('index'))
 
 
+"""
+    If the user is logged in, then the song is queried by the song_id, the form is created, and if the
+    form is validated, then the song is updated with the new data, and the user is redirected to the
+    playlist page.
+    
+    :param song_id: the id of the song that is being edited
+    :return: the rendered template of the edit.html page.
+"""
 @app.route('/edit/<song_id>', methods=['POST', 'GET'])
 def edit(song_id):
     if 'user' in session:
@@ -129,6 +172,7 @@ def edit(song_id):
             return redirect(url_for('playlist', username=session['username']))
         return render_template('edit.html', form=form, song=song)
     return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000, load_dotenv=True)
